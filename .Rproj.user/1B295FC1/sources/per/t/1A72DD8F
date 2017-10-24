@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1508073391373.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1861902696",
+    "id" : "1A72DD8F",
+    "lastKnownWriteTime" : 1508201195,
+    "last_content_update" : 1508201195,
+    "path" : "~/MaxStable/simExample.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "38,1",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

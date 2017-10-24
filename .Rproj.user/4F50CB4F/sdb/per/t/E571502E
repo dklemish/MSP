@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "sim1D <- function(n = 100, dim=1,  \n                  model=\"Brown-Resnick\", \n                  max.iter = 100, plotFn = TRUE, keepPsi=FALSE,\n                  Cstar=15, \n                  corrFn = \"Matern\", \n                  tau2 = 1, sigma2 = 1, nu=1.5, range=0.1, alpha=1,\n                  seed = 1){\n  \n  set.seed(seed)\n  \n  ## Set up dimensions, grid points, and check nugget and partial sill\n  if(!(dim %in% c(1,2))){\n    stop(\"Only 1 or 2 dimensional simulations supported\")\n  }else if(dim==1){\n    x <- matrix(seq(0, 1, length=n), ncol=1)\n    \n    if(length(tau2)==1){\n      tau2 <- rep(tau2, n)\n    }else if(length(tau2) != n){\n      stop(\"Length of tau^2 nugget for 1d sim must equal n\")\n    }\n    if(length(sigma2)==1){\n      sigma2 <- rep(sigma2, n)\n    }else if(length(sigma2) != n){\n      stop(\"Length of sigma^2 partial sill for 1d sim must equal n\")\n    }\n  }else if(dim==2){\n    x <- as.matrix(expand.grid(seq(0, 1, length=n), seq(0, 1, length=n)))\n    if(length(tau2)==1){\n      tau2 <- rep(tau2, n^2)\n    }else if(length(tau2) != n^2){\n      stop(\"Length of tau^2 nugget for 2d sim must equal n^2\")\n    }\n    if(length(sigma2)==1){\n      sigma2 <- rep(sigma2, n^2)\n    }else if(length(sigma2) != n^2){\n      stop(\"Length of sigma^2 partial sill for 2d sim must equal n^2\")\n    }\n  }\n  \n  ## Check model types\n  if(model %in% c(\"Brown-Resnick\", \"extremeT\", \"extremeGauss\")){\n    if(!(corrFn %in% c(\"Matern\", \"Exp\", \"Gaussian\", \"Wave\"))){\n      stop(\"Correlation function not supported\")\n    }\n    par <- list(dim, nu, range, sigma, tau, alpha)\n    S <- .Call('_MSP_Matern', PACKAGE='MSP', x, Cstar, corrFn, keepPsi, )\n    \n  }else if(model %in% c(\"Smith\", \"aniso_Smith\", \"ns_SMith\")){\n    \n  }else if(model %in% c(\"Reich-Shaby\")){\n    \n  }else{\n    stop(\"Model not supported\")\n  }\n  \n  set.seed(NULL)\n  # \n  # oo$x        <- x\n  # oo$y        <- y\n  # oo$xnames   <- x.names\n  # oo$ynames   <- y.names\n  # oo$tau.g    <- tau.g\n  # oo$dim      <- dimpars\n  # \n  # oo$A        <- A\n  # oo$R        <- R\n  # oo$log.det  <- log.det\n  # oo$lp.grid  <- lp.grid\n  # \n  # oo$prox     <- prox.grid\n  # oo$reg.ix   <- reg.ix\n  # oo$hyper    <- hyperPar\n  # oo$imcmcpar <- imcmc.par\n  # oo$dmcmcpar <- dmcmc.par\n  # oo$runtime  <- tm.cpp[3]\n  # \n  # samples  <- as.data.frame(oo$parsamp)\n  # parnames <- colnames(samples)\n  # colnames(samples) <- parnames\n  # oo$parsamp <- samples\n  # \n  # class(oo) <- \"corrQR\"\n  return(S)\n}",
+    "created" : 1507585771246.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3103474747",
+    "id" : "E571502E",
+    "lastKnownWriteTime" : 1507601195,
+    "last_content_update" : 1507601195696,
+    "path" : "E:/MaxStable/MSP/R/SimModel.R",
+    "project_path" : "R/SimModel.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

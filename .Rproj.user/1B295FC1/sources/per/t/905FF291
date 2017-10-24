@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1508081675338.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2807035982",
+    "id" : "905FF291",
+    "lastKnownWriteTime" : 1507754144,
+    "last_content_update" : 1507754144,
+    "path" : "~/MaxStable/MSP/R/SimModel.R",
+    "project_path" : "R/SimModel.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

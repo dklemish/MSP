@@ -1,0 +1,109 @@
+library(ggplot2)
+library(evir) # for MLE testing of marginals
+
+n <- 100
+
+# 1 dimensional simulation
+test1 <- simMSP(n=n, dim=1, model="Brown-Resnick")
+test2 <- simMSP(n=n, dim=1, model="extremeGauss")
+test3 <- simMSP(n=n, dim=1, model="extremeT", alpha=2)
+test4 <- simMSP(n=n, dim=1, model="extremeT", alpha=3)
+test5 <- simMSP(n=n, dim=1, model="Reich-Shaby", nknots=100, bw=0.5, alpha=0.5, keepPsi=TRUE)
+
+plot.data <- data.frame(
+  X = c(test1$X, test2$X, test3$X, test4$X, test5$X),
+  Z = c(test1$Z, test2$Z, test3$Z, test4$Z, test5$Z), 
+  model = factor(c(rep("Brown-Resnick",n), rep("extremeGauss", n), rep("extremeT_2", n),
+                   rep("extremeT_3", n), rep("Reich-Shaby", n))))
+
+ggplot(data=plot.data, aes(x=X, y=Z, color=model)) + geom_line() + theme_bw()
+
+
+### Test marginal distributions are unit Frechet
+n <- 100
+n.sim <- 1000
+# marg.test.BR  <- matrix(0, nrow=n.sim, ncol=n)
+# marg.test.EG  <- matrix(0, nrow=n.sim, ncol=n)
+# marg.test.ET2 <- matrix(0, nrow=n.sim, ncol=n)
+# marg.test.ET3 <- matrix(0, nrow=n.sim, ncol=n)
+marg.test.RS <- matrix(0, nrow=n.sim, ncol=n)
+marg.test.RS.A <- matrix(0, nrow=n.sim, ncol=n)
+
+for(i in 1:n.sim){
+  #marg.test.BR[i,]  <- simMSP(n=n, dim=1, model="Brown-Resnick", seed=i)$Z
+  #marg.test.EG[i,]  <- simMSP(n=n, dim=1, model="extremeGauss", seed=i)$Z
+  #marg.test.ET2[i,] <- simMSP(n=n, dim=1, model="extremeT", seed=i, alpha=2)$Z
+  #marg.test.ET3[i,] <- simMSP(n=n, dim=1, model="extremeT", seed=i, alpha=3)$Z
+  marg.test.RS[i,] <- simMSP(n=n, model="Reich-Shaby", nknots=100, bw=0.01, alpha=0.2, seed=i+1)$Z
+  marg.test.RS.A[i,] <- simMSP(n=n, model="Reich-Shaby", nknots=100, bw=0.01, alpha=0.2, seed=i+1, keepPsi=TRUE)$A
+}
+
+test <- gev(c(marg.test.BR));  test$par.ests; test$par.ses
+test <- gev(c(marg.test.EG));  test$par.ests; test$par.ses
+test <- gev(c(marg.test.ET2)); test$par.ests; test$par.ses
+test <- gev(c(marg.test.ET3)); test$par.ests; test$par.ses
+test <- gev(c(marg.test.RS)); test$par.ests; test$par.ses
+test <- gev(c(marg.test.RS.U)); test$par.ests; test$par.ses
+
+x <- seq(0,2,by=0.1)
+d <- dstable(x, 0.2, 1, 1, 0)
+
+ggplot(data=data.frame(x=c(marg.test.RS.A)), aes(x=x)) + 
+  geom_histogram(aes(y=..density..), col="black", alpha=0.3, bins=100) + 
+  geom_line(data=data.frame(x=x, y=d), aes(y=y), col="red") + 
+  lims(x=c(0,2))
+
+
+unitFrechet <- data.frame(x=seq(0,10,by=0.01), y=dgev(seq(0,10,by=0.01),1,1,1))
+ggplot(data=data.frame(x=c(marg.test.BR)), aes(x=x)) + 
+  geom_line(data=unitFrechet, aes(x=x,y=y), color="red", size=1.5) + 
+  geom_histogram(fill="blue", alpha=0.5, aes(y=..density..), color="black", bins=100) + 
+  lims(x=c(0,10)) + theme_bw() + ggtitle("Brown-Resnick")
+
+ggplot(data=data.frame(x=c(marg.test.EG)), aes(x=x)) + 
+  geom_line(data=unitFrechet, aes(x=x,y=y), color="red", size=1.5) + 
+  geom_histogram(fill="blue", alpha=0.5, aes(y=..density..), color="black", bins=100) + 
+  lims(x=c(0,10)) + theme_bw() + ggtitle("Extreme Gauss")
+
+ggplot(data=data.frame(x=c(marg.test.ET2)), aes(x=x)) + 
+  geom_line(data=unitFrechet, aes(x=x,y=y), color="red", size=1.5) + 
+  geom_histogram(fill="blue", alpha=0.5, aes(y=..density..), color="black", bins=100) + 
+  lims(x=c(0,10)) + theme_bw() + ggtitle("Extreme T, alpha=2")
+
+ggplot(data=data.frame(x=c(marg.test.ET3)), aes(x=x)) + 
+  geom_line(data=unitFrechet, aes(x=x,y=y), color="red", size=1.5) + 
+  geom_histogram(fill="blue", alpha=0.5, aes(y=..density..), color="black", bins=100) + 
+  lims(x=c(0,10)) + theme_bw() + ggtitle("Extreme T, alpha=3")
+
+ggplot(data=data.frame(x=c(marg.test.RS)), aes(x=x)) + 
+  geom_line(data=unitFrechet, aes(x=x,y=y), color="red", size=1.5) + 
+  geom_histogram(fill="blue", alpha=0.5, aes(y=..density..), color="black", bins=100) + 
+  lims(x=c(0,10)) + theme_bw() + ggtitle("Reich-Shaby")
+
+
+### 2 dimensional realizations
+test1 <- simMSP(n=50, dim=2, model="Brown-Resnick", nu=3, seed=6)
+test2 <- simMSP(n=50, dim=2, model="extremeGauss", nu=3, seed=6)
+test3 <- simMSP(n=50, dim=2, model="extremeT", nu=3, alpha=2, seed=6)
+
+plot.data <- data.frame(cbind(test1$X, test1$Z))
+colnames(plot.data) <- c("X", "Y", "Z")
+ggplot(data=data.frame(plot.data), aes(x=X, y=Y, z=Z)) + 
+  geom_raster(aes(fill = Z)) + 
+  scale_fill_gradientn(colors=terrain.colors(50)) + 
+  geom_contour(color="white")
+
+plot.data <- data.frame(cbind(test2$X, test2$Z))
+colnames(plot.data) <- c("X", "Y", "Z")
+ggplot(data=data.frame(plot.data), aes(x=X, y=Y, z=Z)) + 
+  geom_raster(aes(fill = Z)) + 
+  scale_fill_gradientn(colors=terrain.colors(50)) + 
+  geom_contour(color="white")
+
+plot.data <- data.frame(cbind(test3$X, test3$Z))
+colnames(plot.data) <- c("X", "Y", "Z")
+ggplot(data=data.frame(plot.data), aes(x=X, y=Y, z=Z)) + 
+  geom_raster(aes(fill = Z)) + 
+  scale_fill_gradientn(colors=terrain.colors(50)) + 
+  geom_contour(color="white")
+

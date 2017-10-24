@@ -1,0 +1,80 @@
+[
+    {
+        "definitions" : [
+            {
+                "column" : 6,
+                "file" : "U:/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 27,
+                "name" : "SP_Representation(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP)",
+                "parent_name" : "",
+                "usr" : "c:@F@SP_Representation#*$@S@SEXPREC#S0_#S0_#S0_#S0_#S0_#S0_#"
+            },
+            {
+                "column" : 6,
+                "file" : "U:/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 129,
+                "name" : "rmvnorm(const int &, const int &, int &, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@rmvnorm#&1I#S0_#&I#I#"
+            },
+            {
+                "column" : 6,
+                "file" : "U:/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 142,
+                "name" : "calcDistance(int &, int &, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@calcDistance#&I#S0_#I#"
+            },
+            {
+                "column" : 6,
+                "file" : "U:/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 153,
+                "name" : "covMatern(int, int &, double, double, double, int &)",
+                "parent_name" : "",
+                "usr" : "c:@F@covMatern#I#&I#d#d#d#S0_#"
+            },
+            {
+                "column" : 6,
+                "file" : "U:/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 168,
+                "name" : "covPowExp(int, int &, double, double, double, int &)",
+                "parent_name" : "",
+                "usr" : "c:@F@covPowExp#I#&I#d#d#d#S0_#"
+            },
+            {
+                "column" : 6,
+                "file" : "U:/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 181,
+                "name" : "mspBrownResnick(bool, int, int &, int &, double, int &, const int &, const int &, int &, int &)",
+                "parent_name" : "",
+                "usr" : "c:@F@mspBrownResnick#b#I#&I#S0_#d#S0_#&1I#S1_#S0_#S0_#"
+            },
+            {
+                "column" : 6,
+                "file" : "U:/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 204,
+                "name" : "mspExtremeT(bool, int, int &, int &, double, int &, const int &, const int &, const double, int &, int &)",
+                "parent_name" : "",
+                "usr" : "c:@F@mspExtremeT#b#I#&I#S0_#d#S0_#&1I#S1_#1d#S0_#S0_#"
+            },
+            {
+                "column" : 6,
+                "file" : "U:/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 227,
+                "name" : "storeCalc(int &, int &, int &, double &, int &, int &, int &)",
+                "parent_name" : "",
+                "usr" : "c:@F@storeCalc#&I#S0_#S0_#&d#S0_#S0_#S0_#"
+            }
+        ],
+        "file" : "U:/MaxStable/MSP/src/rcpp_hello_world.cpp",
+        "file_last_write" : 1507670553
+    }
+]

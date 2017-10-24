@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1508071862732.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "742233535",
+    "id" : "BDD33EDA",
+    "lastKnownWriteTime" : 1508363999,
+    "last_content_update" : 1508363999853,
+    "path" : "~/MaxStable/MSP/src/rcpp_hello_world.cpp",
+    "project_path" : "src/rcpp_hello_world.cpp",
+    "properties" : {
+        "cursorPosition" : "267,39",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "cpp"
+}

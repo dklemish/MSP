@@ -1,0 +1,107 @@
+[
+    {
+        "definitions" : [
+            {
+                "column" : 6,
+                "file" : "/home/dave/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 31,
+                "name" : "Sim_SP(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP)",
+                "parent_name" : "",
+                "usr" : "c:@F@Sim_SP#*$@S@SEXPREC#S0_#S0_#S0_#S0_#S0_#S0_#"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/dave/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 134,
+                "name" : "Sim_Reich(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP)",
+                "parent_name" : "",
+                "usr" : "c:@F@Sim_Reich#*$@S@SEXPREC#S0_#S0_#S0_#S0_#S0_#"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/dave/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 238,
+                "name" : "rmvnorm(const vec &, const mat &, vec &, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@rmvnorm#&1$@N@arma@C@Col>#d#&1$@N@arma@C@Mat>#d#&S1_#I#"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/dave/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 251,
+                "name" : "rgev(const double &, const int &, vec &)",
+                "parent_name" : "",
+                "usr" : "c:@F@rgev#&1d#&1I#&$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/dave/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 264,
+                "name" : "rpstable(const double &, const int &, vec &)",
+                "parent_name" : "",
+                "usr" : "c:@F@rpstable#&1d#&1I#&$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/dave/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 288,
+                "name" : "calcDistance(mat &, mat &, int)",
+                "parent_name" : "",
+                "usr" : "c:@F@calcDistance#&$@N@arma@C@Mat>#d#S0_#I#"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/dave/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 299,
+                "name" : "covMatern(int, mat &, double, double, double, mat &)",
+                "parent_name" : "",
+                "usr" : "c:@F@covMatern#I#&$@N@arma@C@Mat>#d#d#d#d#S0_#"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/dave/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 314,
+                "name" : "covPowExp(int, mat &, double, double, double, mat &)",
+                "parent_name" : "",
+                "usr" : "c:@F@covPowExp#I#&$@N@arma@C@Mat>#d#d#d#d#S0_#"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/dave/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 327,
+                "name" : "mspBrownResnick(bool, int, int &, int &, double, vec &, const vec &, const mat &, mat &, vec &)",
+                "parent_name" : "",
+                "usr" : "c:@F@mspBrownResnick#b#I#&I#S0_#d#&$@N@arma@C@Col>#d#&1S2_#&1$@N@arma@C@Mat>#d#&S5_#S1_#"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/dave/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 350,
+                "name" : "mspExtremeT(bool, int, int &, int &, double, vec &, const vec &, const mat &, const double, mat &, vec &)",
+                "parent_name" : "",
+                "usr" : "c:@F@mspExtremeT#b#I#&I#S0_#d#&$@N@arma@C@Col>#d#&1S2_#&1$@N@arma@C@Mat>#d#1d#&S5_#S1_#"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/dave/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 375,
+                "name" : "storeCalc(mat &, vec &, vec &, double &, int &, int &, int &)",
+                "parent_name" : "",
+                "usr" : "c:@F@storeCalc#&$@N@arma@C@Mat>#d#&$@N@arma@C@Col>#d#S2_#&d#&I#S5_#S5_#"
+            }
+        ],
+        "file" : "/home/dave/MaxStable/MSP/src/rcpp_hello_world.cpp",
+        "file_last_write" : 1508731019
+    }
+]

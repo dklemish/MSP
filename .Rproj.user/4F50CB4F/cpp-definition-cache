@@ -1,0 +1,26 @@
+[
+    {
+        "definitions" : [
+            {
+                "column" : 6,
+                "file" : "E:/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 20,
+                "name" : "Matern(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP)",
+                "parent_name" : "",
+                "usr" : "c:@F@Matern#*$@S@SEXPREC#S0_#S0_#S0_#S0_#S0_#S0_#S0_#"
+            },
+            {
+                "column" : 5,
+                "file" : "E:/MaxStable/MSP/src/rcpp_hello_world.cpp",
+                "kind" : 6,
+                "line" : 103,
+                "name" : "rmvnorm(vec &, mat &)",
+                "parent_name" : "",
+                "usr" : "c:@F@rmvnorm#&$@N@arma@C@Col>#d#&$@N@arma@C@Mat>#d#"
+            }
+        ],
+        "file" : "E:/MaxStable/MSP/src/rcpp_hello_world.cpp",
+        "file_last_write" : 1507500450
+    }
+]
