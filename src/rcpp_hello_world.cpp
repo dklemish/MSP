@@ -15,6 +15,7 @@ using namespace Rcpp;
 using namespace arma;
 
 /***** Function headers *****/
+void dmvnorm(const mat &, const vec &, const mat &, vec &, int);
 void rmvnorm(vec&, mat &, vec &, int);
 void rgev(const double &, const int &, vec &);
 void rpstable(const double &, const int &, vec &);
@@ -194,7 +195,7 @@ SEXP Sim_Reich(
     }
     kernelSum.at(i) = sum(kernelVal.row(i));
   }
-
+  
   for(int i=0; i<n; i++){
     for(int j=0; j<nknots; j++){
       kernelVal.at(i,j) = kernelVal.at(i,j) / kernelSum.at(i);
@@ -235,6 +236,128 @@ SEXP Sim_Reich(
   }
 }
 
+// [[Rcpp::export]]
+SEXP Sim_Smith(
+    SEXP x_, 
+    SEXP cstar_,
+    SEXP keepPsi_,
+    SEXP Sigma_, 
+    SEXP radius_){
+  /***** Initialization *****/
+  // Variable declarations
+  bool keepPsi;
+  int n;                // Total # of grid points (n in 1D, n^2 in 2D)
+  int d;                // # of dimensions
+  int count = 0;
+  int curr_storage = 100;
+  double cstar;         // Approx max value of stochastic process
+  double radius;
+  mat x;                // Location matrix
+  mat Sigma;            // Covariance matrix of underlying process
+  mat SStore;           // Matrix to store storm locations
+  mat distMat;          // Matrix of pairwise distances between spatial locations
+  mat psiStore;         // Matrix to store psi functions
+  vec S;                // Storm locations
+  vec unitVec;          // Unit vector in direction of storm location from center of X
+  vec psi;              // 
+  vec Z;                // Output
+  vec zero_mean;        // Zero vector, size n
+  vec center;           // Center of X space
+  vec zetaStore;        // Matrix to store zeta values
+  
+  // Convert SEXP objects to Rcpp objects
+  NumericMatrix X = as<NumericMatrix>(x_);
+  NumericMatrix Sig = as<NumericMatrix>(Sigma_);
+  
+  cstar   = as<double>(cstar_);
+  radius  = as<double>(radius_);
+  keepPsi = as<bool>(keepPsi_);
+  
+  // Initialize other variables
+  x   = mat(X.begin(), X.nrow(), X.ncol(), TRUE);
+  Sigma = mat(Sig.begin(), Sig.nrow(), Sig.ncol(), TRUE);
+  n   = X.nrow();
+  d   = X.ncol();
+  distMat = mat(n, n);
+  
+  zero_mean = vec(n, fill::zeros);
+  center = vec(d);
+  unitVec = vec(d);
+  center.fill(0.5);
+  S = vec(d);
+  
+  // Allocate output storage
+  psi = vec(n, fill::zeros);
+  Z = vec(n, fill::zeros);
+  
+  zetaStore = vec(curr_storage);
+  psiStore  = mat(curr_storage, n);
+  
+  /**** Calculations ****/
+
+  double minZ = 0;
+  double theta;
+  
+  double norm_range = PI * radius * radius;
+  
+  double zetaInv = R::rexp(1);
+  vec tempVec = vec(n);
+  if(d==2){
+    while(cstar/zetaInv > minZ){
+      theta = R::runif(0.0, 2*PI);
+      unitVec[0] = cos(theta);
+      unitVec[1] = sin(theta);
+      
+      S = center + R::runif(0.0, radius)*unitVec;
+      dmvnorm(x, S, Sigma, psi, n);
+      
+      Z = max(Z, norm_range * psi / zetaInv);
+      
+      zetaInv += R::rexp(1);
+      minZ = min(Z);
+      
+      if(keepPsi){
+        storeCalcSmith(psiStore, SStore, zetaStore, psi, S, zetaInv, n, count, curr_storage);
+      }
+    }
+  }
+  
+  GetRNGstate();
+  
+  if(keepPsi){
+    mat psiOut(psiStore.rows(0, count-1));
+    vec zetaOut(zetaStore.subvec(0, count-1));
+    
+    return Rcpp::List::create(
+      Rcpp::Named("dim") = d,
+      Rcpp::Named("num_functions") = count-1,
+      Rcpp::Named("X") = x,
+      Rcpp::Named("Z") = Z,
+      Rcpp::Named("psi") = psiOut,
+      Rcpp::Named("zeta") = zetaOut);
+  }else{
+    return Rcpp::List::create(
+      Rcpp::Named("dim") = d,
+      Rcpp::Named("num_functions") = count-1,
+      Rcpp::Named("X") = x,
+      Rcpp::Named("Z") = Z);
+  }
+}
+
+void dmvnorm(const mat &x, const vec &mu, const mat &Sigma, vec &result, int n){
+
+  mat SigmaInv = inv_sympd(Sigma);
+  const double d = sqrt(det(Sigma)) / (2*PI);
+  
+  for(int i=0; i < n; i++){
+    result.at(i) = as_scalar(-0.5*(x.row(i) - mu.t()) * SigmaInv * (x.row(i).t() - mu));
+  }
+  
+  result = d * exp(result);
+  
+  return;
+}
+
 void rmvnorm(const vec &mu, const mat &Sigma, vec &result, int d){
   mat L = arma::chol(Sigma, "lower");
   
@@ -269,11 +392,11 @@ void rpstable(const double &alpha, const int &nknots, vec &result){
   const double xi   = PI/2;
   const double z1   = pow(1+zeta*zeta, 1/(2*alpha));
   double z2, z3, z4;
-
+  
   for(int i=0; i < nknots; i++){
     u = R::runif(-PI/2, PI/2);
     w = R::rexp(1.0);
-
+    
     z2 = sin(alpha*(u+xi));
     z3 = pow(cos(u), 1/alpha);
     z4 = cos(u-alpha*(u+xi))/w;
@@ -379,6 +502,20 @@ void storeCalc(mat &psiStore, vec &zetaStore, vec &psi, double &zetaInv, int &n,
   
   if(count == curr_storage){
     psiStore.resize(2*curr_storage, n);
+    zetaStore.resize(2*curr_storage);
+    curr_storage = 2*curr_storage;
+  }
+}
+
+void storeCalcSmith(mat &psiStore, vec &zetaStore, mat &SStore, vec &psi, vec &S, double &zetaInv, int &n, int &count, int &curr_storage){
+  psiStore.row(count) = psi.t();
+  SStore.row(count) = S.t();
+  zetaStore.at(count) = 1/zetaInv;
+  count++;
+  
+  if(count == curr_storage){
+    psiStore.resize(2*curr_storage, n);
+    SStore.resize(2*curr_storage, n);
     zetaStore.resize(2*curr_storage);
     curr_storage = 2*curr_storage;
   }

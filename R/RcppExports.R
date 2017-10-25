@@ -9,3 +9,7 @@ Sim_Reich <- function(x_, knots_, Sigma_, keepPsi_, bw_, alpha_) {
     .Call('_MSP_Sim_Reich', PACKAGE = 'MSP', x_, knots_, Sigma_, keepPsi_, bw_, alpha_)
 }
 
+Sim_Smith <- function(x_, cstar_, keepPsi_, Sigma_, radius_) {
+    .Call('_MSP_Sim_Smith', PACKAGE = 'MSP', x_, cstar_, keepPsi_, Sigma_, radius_)
+}
+

@@ -39,10 +39,26 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// Sim_Smith
+SEXP Sim_Smith(SEXP x_, SEXP cstar_, SEXP keepPsi_, SEXP Sigma_, SEXP radius_);
+RcppExport SEXP _MSP_Sim_Smith(SEXP x_SEXP, SEXP cstar_SEXP, SEXP keepPsi_SEXP, SEXP Sigma_SEXP, SEXP radius_SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x_(x_SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type cstar_(cstar_SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type keepPsi_(keepPsi_SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type Sigma_(Sigma_SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type radius_(radius_SEXP);
+    rcpp_result_gen = Rcpp::wrap(Sim_Smith(x_, cstar_, keepPsi_, Sigma_, radius_));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_MSP_Sim_SP", (DL_FUNC) &_MSP_Sim_SP, 7},
     {"_MSP_Sim_Reich", (DL_FUNC) &_MSP_Sim_Reich, 6},
+    {"_MSP_Sim_Smith", (DL_FUNC) &_MSP_Sim_Smith, 5},
     {NULL, NULL, 0}
 };
 
