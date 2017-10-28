@@ -21,7 +21,7 @@ void rgev(const double &, const int &, vec &);
 void rpstable(const double &, const int &, vec &);
 void calcDistance(mat &, mat &, int);
 void storeCalc(mat &, vec &, vec &, double &, int &, int &, int &);
-void storeCalcSmith(mat &, mat &, vec &, vec &, vec &, double &, int &, int &, int &);
+void storeCalcSmith(mat &, mat &, vec &, vec &, vec &, double &, int &, int &, int &, int &);
 
 void covMatern(int, mat &, double, double, double, mat &);
 void covPowExp(int, mat &, double, double, double, mat &);
@@ -316,12 +316,12 @@ SEXP Sim_Smith(
       minZ = min(Z);
       
       if(keepPsi){
-        storeCalcSmith(psiStore, SStore, zetaStore, psi, S, zetaInv, n, count, curr_storage);
+        storeCalcSmith(psiStore, SStore, zetaStore, psi, S, zetaInv, n, d, count, curr_storage);
       }
     }
   }else{
     norm_range =  2 * radius;
-    while(cstar/zetaInv > minZ){
+    while(cstar/zetaInv > minZ/norm_range){
       
       S = center + R::runif(-radius, radius);
       dmvnorm(x, S, Sigma, psi, n, d);
@@ -331,7 +331,7 @@ SEXP Sim_Smith(
       minZ = min(Z);
       
       if(keepPsi){
-        storeCalcSmith(psiStore, SStore, zetaStore, psi, S, zetaInv, n, count, curr_storage);
+        storeCalcSmith(psiStore, SStore, zetaStore, psi, S, zetaInv, n, d, count, curr_storage);
       }
     }
   }
@@ -523,7 +523,7 @@ void storeCalc(mat &psiStore, vec &zetaStore, vec &psi, double &zetaInv, int &n,
   }
 }
 
-void storeCalcSmith(mat &psiStore, mat &SStore, vec &zetaStore, vec &psi, vec &S, double &zetaInv, int &n, int &count, int &curr_storage){
+void storeCalcSmith(mat &psiStore, mat &SStore, vec &zetaStore, vec &psi, vec &S, double &zetaInv, int &n, int &d, int &count, int &curr_storage){
   psiStore.row(count) = psi.t();
   SStore.row(count) = S.t();
   zetaStore.at(count) = 1/zetaInv;
@@ -531,7 +531,7 @@ void storeCalcSmith(mat &psiStore, mat &SStore, vec &zetaStore, vec &psi, vec &S
   
   if(count == curr_storage){
     psiStore.resize(2*curr_storage, n);
-    SStore.resize(2*curr_storage, n);
+    SStore.resize(2*curr_storage, d);
     zetaStore.resize(2*curr_storage);
     curr_storage = 2*curr_storage;
   }

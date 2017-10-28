@@ -123,12 +123,12 @@
                 "file" : "/home/dave/MaxStable/MSP/src/rcpp_hello_world.cpp",
                 "kind" : 6,
                 "line" : 526,
-                "name" : "storeCalcSmith(mat &, mat &, vec &, vec &, vec &, double &, int &, int &, int &)",
+                "name" : "storeCalcSmith(mat &, mat &, vec &, vec &, vec &, double &, int &, int &, int &, int &)",
                 "parent_name" : "",
-                "usr" : "c:@F@storeCalcSmith#&$@N@arma@C@Mat>#d#S0_#&$@N@arma@C@Col>#d#S2_#S2_#&d#&I#S5_#S5_#"
+                "usr" : "c:@F@storeCalcSmith#&$@N@arma@C@Mat>#d#S0_#&$@N@arma@C@Col>#d#S2_#S2_#&d#&I#S5_#S5_#S5_#"
             }
         ],
         "file" : "/home/dave/MaxStable/MSP/src/rcpp_hello_world.cpp",
-        "file_last_write" : 1509074902
+        "file_last_write" : 1509157901
     }
 ]
