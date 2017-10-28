@@ -98,8 +98,8 @@ simReich <- function(n = 100, dim=1,
 
 simSmith <- function(n = 100, dim=1,  
                      plotFn = TRUE, keepPsi=FALSE,
-                     Cstar=15, 
-                     sigma2 = 1, rho=0, radius = 1,
+                     Cstar=10, 
+                     sigma2 = 0.1, rho=0, radius = 1,
                      seed){
   if(!missing(seed)){
     set.seed(seed)  
@@ -119,7 +119,7 @@ simSmith <- function(n = 100, dim=1,
   if(dim==1){
     Sigma <- matrix(sigma2, nrow=1)
   }else{
-    Sigma <- matrix(c(sigma2, rho, rho, sigma2), nrow=2)
+    Sigma <- sigma2 * matrix(c(1, rho, rho, 1), nrow=2)
   }
   
   S <- .Call('_MSP_Sim_Smith', PACKAGE='MSP', x, Cstar, keepPsi, Sigma, radius)
