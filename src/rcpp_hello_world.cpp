@@ -146,14 +146,16 @@ SEXP Sim_Reich(
   int n;                // Total # of grid points (n in 1D, n^2 in 2D)
   int nknots;           // Total # of knot points
   int d;                // # of dimensions
+  int i, j;
   double bw;
-  double alpha;         // 
+  //double alpha;         // 
   double temp;
   
   mat x;                // Location matrix
   mat knots;            // Knot locations
   mat Sigma;            // Covariance matrix of underlying process
   mat kernelVal;        // Matrix to store kernel values at each grid point
+  mat alpha;            // Spatial nugget effect
   vec A;                // Vector to store A values
   vec U;                // Vector to store U values
   vec theta;            // Vector to store theta values
@@ -163,15 +165,18 @@ SEXP Sim_Reich(
   NumericMatrix X = as<NumericMatrix>(x_);
   NumericMatrix knotsR = as<NumericMatrix>(knots_);
   NumericMatrix SigmaR = as<NumericMatrix>(Sigma_);
+  NumericMatrix alp = as<NumericMatrix>(alpha_);
   
   keepPsi = as<bool>(keepPsi_);
   bw      = as<double>(bw_);
-  alpha   = as<double>(alpha_);
+  //alpha   = as<double>(alpha_);
   
   // Initialize other variables
   x     = mat(X.begin(), X.nrow(), X.ncol(), TRUE);
   knots = mat(knotsR.begin(), knotsR.nrow(), knotsR.ncol(), TRUE);
   Sigma = mat(SigmaR.begin(), SigmaR.nrow(), SigmaR.ncol(), TRUE);
+  alpha = mat(alp.begin(), alp.nrow(), alp.ncol(), TRUE);
+  
   n   = X.nrow();
   d   = X.ncol();
   nknots = knotsR.nrow();
@@ -190,15 +195,15 @@ SEXP Sim_Reich(
   const double normConst2 = 1/(2*bw);
   vec kernelSum = vec(n);
   
-  for(int i=0; i<n; i++){
-    for(int j=0; j<nknots; j++){
+  for(i=0; i<n; i++){
+    for(j=0; j<nknots; j++){
       kernelVal.at(i,j) = normConst1 * exp(-normConst2 * as_scalar((x.row(i) - knots.row(j)) * Sigma * (x.row(i) - knots.row(j)).t()));
     }
     kernelSum.at(i) = sum(kernelVal.row(i));
   }
   
-  for(int i=0; i<n; i++){
-    for(int j=0; j<nknots; j++){
+  for(i=0; i<n; i++){
+    for(j=0; j<nknots; j++){
       kernelVal.at(i,j) = kernelVal.at(i,j) / kernelSum.at(i);
     }
   }
@@ -206,13 +211,16 @@ SEXP Sim_Reich(
   // Simulations 
   GetRNGstate();
   
-  rpstable(alpha, nknots, A); // Simulate values for A/theta (basis function coefficients)
-  rgev(alpha, n, U);          // Simulate values for U (nugget effect)
-  
-  for(int i = 0; i<n; i++){
+  for(i=0; i < n; i++){
+    rgev(alpha.at(i,3), n, U);          // Simulate values for U (nugget effect)    
+  }
+  for(i = n; i < (n+nknots); i++){
+    rpstable(alpha.at(i,3), nknots, A); // Simulate values for A/theta (basis function coefficients)
+  }
+
+  for(i = 0; i<n; i++){
     temp = 0;
-    for(int j = 0; j<nknots; j++){
-      //Rcout << A.at(j) << " " << pow(kernelVal.at(i,j), 1/alpha) << std::endl;
+    for(j = 0; j<nknots; j++){
       temp += A.at(j) * pow(kernelVal.at(i,j), 1/alpha);
     }
     theta.at(i) = pow(temp, alpha);

@@ -89,6 +89,17 @@ simReich <- function(n = 100, dim=1,
     knots <- as.matrix(expand.grid(seq(1/(nknots+1), 1-1/(nknots+1), length=nknots), seq(1/(nknots+1), 1-1/(nknots+1), length=nknots)))
     Sigma <- matrix(c(1, rho, rho, 1), nrow=2)
   }
+  
+  temp <- unique(rbind(x, knots), MARGIN = 2)
+  
+  if(length(alpha)==1){
+    alpha <- cbind(temp, alpha)
+  }else if(length(alpha) != nrow(temp)){
+    stop("Length of alpha nugget must equal to ", 
+         nrow(temp), 
+         ", the number of unique knot & evaluation locations")
+  }
+  
   S <- .Call('_MSP_Sim_Reich', PACKAGE='MSP', x, knots, Sigma, keepPsi, bw, alpha)
   
   set.seed(NULL)
